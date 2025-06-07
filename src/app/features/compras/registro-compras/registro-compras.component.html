@@ -1,0 +1,160 @@
+<p-toast></p-toast>
+<div class="p-fluid">
+    <div class="card">
+        <div class="grid">
+            <!-- Header Section -->
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="flex align-items-center gap-3">
+                    <div class="flex-grow-1">
+                        <label for="fecha">N° Compra</label>
+                        <h3><b>{{compra.numero}}</b></h3>
+                    </div>
+                    <p-button label="Actualizar" icon="pi pi-refresh" (click)="actualizarPedido()" styleClass="p-button-warning"></p-button>
+                </div>
+            </div>
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="field">
+                    <label for="mesa">Vendedor</label>
+                    <input pInputText type="text" [(ngModel)]="compra.vendedor" [disabled]="compra.estado !== 0" />
+                </div>
+            </div>
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="field">
+                    <label for="fecha">Fecha Compra</label>
+                    <p-calendar id="fecha" [(ngModel)]="today" [showIcon]="true" dateFormat="yy-mm-dd" [disabled]="compra_id !== ''"></p-calendar>
+                </div>
+            </div>
+
+            <!-- Animal Data Section -->
+            <div class="col-12" *ngIf="compra.estado==0">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5><i class="pi pi-heart mr-2"></i>Datos del Animal</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="grid">
+                            <div class="col-12 md:col-6 lg:col-3">
+                                <div class="field">
+                                    <label for="nombre">Nombre</label>
+                                    <input pInputText id="nombre" type="text" [(ngModel)]="compra.animal.nombre" />
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6 lg:col-3">
+                                <div class="field">
+                                    <label for="sexo">Sexo</label>
+                                    <app-selector-sexo (filtroSeleccionado)="compra.animal.sexo=$event.nombre"></app-selector-sexo>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6 lg:col-3">
+                                <div class="field">
+                                    <label for="fechaNacimiento">Fecha Nacimiento</label>
+                                    <p-calendar id="fechaNacimiento" [(ngModel)]="compra.animal.fechaNacimiento" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6 lg:col-3">
+                                <div class="field">
+                                    <label for="etapa">Etapa</label>
+                                    <div class="p-inputgroup">
+                                        <input pInputText type="text" [(ngModel)]="compra.etapa.nombre" />
+                                        <button pButton pRipple icon="pi pi-plus" class="p-button-success" (click)="agregarEtapa()"></button>
+                                    </div>
+                                    <app-selector-etapa (itemSeleccionado)="compra.animal.etapa=$event.nombre" class="mt-2"></app-selector-etapa>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchase Data Section -->
+            <div class="col-12" *ngIf="compra.estado==0">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5><i class="pi pi-shopping-cart mr-2"></i>Datos de Compra</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="grid">
+                            <div class="col-12 md:col-4">
+                                <div class="field">
+                                    <label for="peso">Peso Kg</label>
+                                    <input id="peso" pInputText type="number" [(ngModel)]="detalleCompra.peso" (ngModelChange)="detalleCompra.total = detalleCompra.valor * detalleCompra.peso" />
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-4">
+                                <div class="field">
+                                    <label for="valor">Valor Kg</label>
+                                    <input id="valor" pInputText type="number" [(ngModel)]="detalleCompra.valor" (ngModelChange)="detalleCompra.total = detalleCompra.valor * detalleCompra.peso" />
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-4">
+                                <div class="field">
+                                    <label for="total">Total</label>
+                                    <input id="total" pInputText type="number" [(ngModel)]="detalleCompra.total" readonly />
+                                </div>
+                            </div>
+                            <div class="col-12 text-right">
+                                <p-button label="Agregar" icon="pi pi-plus" styleClass="p-button-success" (click)="agregarDetalle()"></p-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Details Table Section -->
+            <div class="col-12">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5><i class="pi pi-list mr-2"></i>Detalles de Compra</h5>
+                    </div>
+                    <div class="card-body">
+                        <p-table [value]="detalles" [paginator]="true" [rows]="10" dataKey="id" responsiveLayout="scroll" styleClass="p-datatable-sm">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Animal</th>
+                                    <th>Sexo</th>
+                                    <th>Etapa</th>
+                                    <th>Peso</th>
+                                    <th>Valor Kg</th>
+                                    <th>Subtotal</th>
+                                    <th *ngIf="compra.estado==0">Acciones</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-detalle>
+                                <tr>
+                                    <td>{{ detalle.animal.nombre }}</td>
+                                    <td>{{ detalle.animal.sexo }}</td>
+                                    <td>{{ detalle.animal.etapa }}</td>
+                                    <td>{{ detalle.peso }}</td>
+                                    <td>{{ detalle.valor | currency }}</td>
+                                    <td>{{ detalle.total | currency }}</td>
+                                    <td *ngIf="compra.estado==0">
+                                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm" (click)="quitarProducto(detalle.id)"></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="summary">
+                                <div class="flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="font-bold mr-2">Total Compra:</span>
+                                        <span class="text-xl">{{ calcularTotal() | currency }}</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-bold mr-2">Cantidad Animal:</span>
+                                        <span class="text-xl">{{ totalcantidad }}</span>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Actions -->
+            <div class="col-12 flex justify-content-end mt-3" *ngIf="compra.estado==0">
+                <p-button label="Finalizar Compra" icon="pi pi-check" styleClass="p-button-primary p-button-lg" (click)="confirm1()"></p-button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-confirmDialog [style]="{width: '90%', maxWidth: '50vw'}"></p-confirmDialog>

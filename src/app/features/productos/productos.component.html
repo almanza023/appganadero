@@ -1,0 +1,203 @@
+<p-toast></p-toast>
+<app-registro-producto (itemSeleccionado)="data = $event"></app-registro-producto>
+<div class="grid">
+    <div class="col-12">
+        <div class="card p-fluid">
+            <div class="grid">
+                <div class="col-12 md:col-6 lg:col-6">
+                    <h3>{{ nombreModulo }}</h3>
+                </div>
+            </div>
+            <div class="field grid justify-content-start">
+                <div class="col-12 md:col-4 flex gap-2">
+                    <p-button
+                        label="Consultar"
+                        styleClass="p-button-primary"
+                        icon="pi pi-search"
+                        (click)="getDataAll()"
+                    ></p-button>
+                    <p-button
+                        label="Crear"
+                        styleClass="p-button-success"
+                        icon="pi pi-plus"
+                        (click)="openNew()"
+                    ></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-table
+                #dt
+                [value]="data"
+                [columns]="cols"
+                [rows]="10"
+                [globalFilterFields]="['nombre', 'contenido', 'lote', 'precio']"
+                [paginator]="true"
+                [rowsPerPageOptions]="[10, 20, 30]"
+                [showCurrentPageReport]="true"
+                [rowHover]="true"
+                responsiveLayout="scroll"
+                currentPageReportTemplate="Mostrando {first} to {last} de {totalRecords} registros"
+                dataKey="id"
+            >
+                <ng-template pTemplate="caption">
+                    <div
+                        class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+                    >
+                        <h5 class="m-0">Información General</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input
+                                (input)="onGlobalFilter(dt, $event)"
+                                pInputText
+                                type="text"
+                                placeholder="Buscar..."
+                                class="w-full sm:w-auto"
+                            />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="id">
+                            Código
+                            <p-sortIcon field="id"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="tipo_producto.nombre">
+                            Tipo Producto
+                            <p-sortIcon field="tipo_producto.nombre"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="tipo_unidad.nombre">
+                            Unidad
+                            <p-sortIcon field="tipo_unidad.nombre"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="nombre">
+                            Nombre
+                            <p-sortIcon field="nombre"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="descripcion">
+                            Descripción
+                            <p-sortIcon field="descripcion"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="contenido">
+                            Contenido
+                            <p-sortIcon field="contenido"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="lote">
+                            Lote
+                            <p-sortIcon field="lote"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="fecha_vencimiento">
+                            Fecha vencimiento
+                            <p-sortIcon field="fecha_vencimiento"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="estado">
+                            Estado
+                            <p-sortIcon field="estado"></p-sortIcon>
+                        </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td style="width: 10%; min-width: 10rem">
+                            <span class="p-column-title">Código</span>
+                            {{ item.id }}
+                        </td>
+                        <td style="width: 32%; min-width: 10rem">
+                            <span class="p-column-title">Tipo Producto</span>
+                            {{ item.tipo_producto?.nombre }}
+                        </td>
+                        <td style="width: 32%; min-width: 10rem">
+                            <span class="p-column-title">Unidad</span>
+                            {{ item.tipo_unidad?.nombre }}
+                        </td>
+                        <td style="width: 32%; min-width: 10rem">
+                            <span class="p-column-title">Nombre</span>
+                            {{ item.nombre }}
+                        </td>
+                        <td style="width: 32%; min-width: 10rem">
+                            <span class="p-column-title">Descripción</span>
+                            {{ item.descripcion }}
+                        </td>
+                        <td style="width: 32%; min-width: 10rem">
+                            <span class="p-column-title">Contenido</span>
+                            {{ item.contenido }}
+                        </td>
+                        <td style="width: 32%; min-width: 10rem">
+                            <span class="p-column-title">Lote</span>
+                            {{ item.lote }}
+                        </td>
+                        <td style="width: 32%; min-width: 10rem">
+                            <span class="p-column-title">Fecha vencimiento</span>
+                            {{ item.fecha_vencimiento }}
+                        </td>
+
+                        <td style="width: 26%; min-width: 10rem">
+                            <span class="p-column-title">Estado</span>
+                            {{ item.estado == "1" ? "ACTIVO" : "BLOQUEADO" }}
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button
+                                    (click)="editProduct(item)"
+                                    pButton
+                                    pRipple
+                                    icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                ></button>
+                                <p-button
+                                    (click)="bloqueoProducto(item)"
+                                    icon="pi pi-check"
+                                    styleClass="p-button-rounded p-button-warning"
+                                ></p-button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+
+<p-dialog
+    [(visible)]="deleteProductDialog"
+    [modal]="true"
+    [style]="{ width: '450px' }"
+    header="Confirmar"
+>
+    <div class="flex align-items-center justify-content-center">
+        <i
+            class="pi pi-exclamation-triangle mr-3"
+            style="font-size: 2rem"
+        ></i>
+        <span *ngIf="producto">
+            Esta seguro de Cambiar el estado al Registro
+            <b>{{ producto.nombre }}</b>?
+        </span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button
+            (click)="confirmDelete()"
+            pButton
+            pRipple
+            icon="pi pi-check"
+            class="p-button-success"
+            label="Aceptar"
+        ></button>
+        <button
+            (click)="deleteProductDialog = false"
+            pButton
+            pRipple
+            icon="pi pi-times"
+            class="p-button-danger"
+            label="Cancelar"
+        ></button>
+    </ng-template>
+</p-dialog>

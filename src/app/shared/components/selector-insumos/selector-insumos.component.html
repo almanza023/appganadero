@@ -1,0 +1,7 @@
+<p-dropdown [options]="items" [disabled]="disabled" optionLabel="nombre_producto" appendTo="body" [filter]="true" [(ngModel)]="seleccionado" filterBy="nombre_producto" [showClear]="true" placeholder="Seleccione una Opción" (onChange)="onChange($event)">
+    <ng-template let-item pTemplate="item">
+        <div class="flex align-items-center gap-2">
+            <div>{{item.nombre_producto+' - '+item.contenido_restante }}</div>
+        </div>
+    </ng-template>
+</p-dropdown>

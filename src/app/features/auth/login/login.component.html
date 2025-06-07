@@ -1,0 +1,57 @@
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+  <p-toast></p-toast>
+  <div class="flex flex-column align-items-center justify-content-center p-3">
+    <div class="border-round-lg p-3" style="background: linear-gradient(180deg, #4CAF50 10%, #2c3e50 100%);">
+      <div class="w-full surface-card py-5 px-3 sm:py-8 sm:px-5 border-round-lg" style="box-shadow: 0 8px 16px rgba(0,0,0,0.2);">
+        <div class="text-center mb-5">
+          <img src="assets/images/Logo_App.png" alt="logo" class="w-8rem h-6rem sm:w-10rem sm:h-8rem">
+          <div class="text-900 text-2xl sm:text-3xl font-bold mb-2 mt-3">APLICATIVO GANADERO</div>
+        </div>
+
+        <div class="p-3 sm:p-4 border-round-lg" style="background-color: #f8f9fa;">
+          <div class="mb-4">
+            <label for="usuario" class="block text-900 text-lg font-medium mb-2">Usuario</label>
+            <div class="p-input-icon-left w-full">
+              <i class="pi pi-user" style="color: #4CAF50; font-size: 1.2rem;"></i>
+              <input id="usuario"
+                     [(ngModel)]="usuario"
+                     type="text"
+                     placeholder="Ingrese su usuario"
+                     pInputText
+                     class="w-full mb-3"
+                     style="padding: 0.75rem 0.75rem 0.75rem 2.5rem; border: 1px solid #e0e0e0; border-radius: 6px;">
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label for="password" class="block text-900 text-lg font-medium mb-2">Contraseña</label>
+            <div class="p-input-icon-left w-full">
+              <i class="pi pi-lock" style="color: #4CAF50; font-size: 1.2rem;"></i>
+              <input id="password"
+                     [(ngModel)]="clave"
+                     type="password"
+                     (keyup.enter)="login()"
+                     placeholder="Ingrese su contraseña"
+                     pInputText
+                     class="w-full mb-3"
+                     style="padding: 0.75rem 0.75rem 0.75rem 2.5rem; border: 1px solid #e0e0e0; border-radius: 6px;">
+            </div>
+          </div>
+
+          <div class="flex align-items-center justify-content-between mb-4">
+            <div class="flex align-items-center">
+              <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
+              <label for="rememberme1" class="text-base">Recordar sesión</label>
+            </div>
+          </div>
+
+          <button pButton pRipple [loading]="loading" label="INICIAR SESIÓN"
+            (click)="login()"
+            class="w-full p-3 text-xl font-bold"
+            style="background: #4CAF50; border: none; border-radius: 6px; transition: all 0.3s;">
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

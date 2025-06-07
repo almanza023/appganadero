@@ -1,0 +1,218 @@
+<p-toast></p-toast>
+<div class="p-fluid">
+    <div class="card">
+        <div class="grid">
+            <!-- Header Section -->
+            <div class="col-12 md:col-6 lg:col-4">
+                <div class="flex align-items-center gap-3 mb-3">
+                    <div class="flex-grow-1">
+                        <label for="fecha" class="block text-sm font-medium mb-1">N° Venta</label>
+                        <h3 class="m-0"><b>{{venta.codigo}}</b></h3>
+                    </div>
+                    <p-button label="Actualizar" icon="pi pi-refresh" (click)="actualizarPedido()" styleClass="p-button-warning"></p-button>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6 lg:col-6">
+                <div class="field mb-3">
+                    <label for="fecha" class="block text-sm font-medium mb-1">Fecha Venta</label>
+                    <p-calendar id="fecha" [(ngModel)]="today" [showIcon]="true" dateFormat="yy-mm-dd" [disabled]="venta_id !== ''" class="w-full"></p-calendar>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-light p-3">
+                        <h5 class="m-0"><i class="pi pi-user mr-2"></i>Datos del Comprador</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="grid">
+                            <div class="col-12 md:col-6 lg:col-4">
+                                <div class="field mb-3">
+                                    <label for="comprador" class="block text-sm font-medium mb-1">Comprador</label>
+                                    <input id="comprador" pInputText type="text" [(ngModel)]="venta.comprador" [disabled]="venta.estado !== 0" class="w-full" />
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6 lg:col-4">
+                                <div class="field mb-3">
+                                    <label for="documento" class="block text-sm font-medium mb-1">Documento</label>
+                                    <input id="documento" pInputText type="number" [(ngModel)]="venta.documento" [disabled]="venta.estado !== 0" class="w-full" />
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6 lg:col-4">
+                                <div class="field mb-3">
+                                    <label for="telefono" class="block text-sm font-medium mb-1">Teléfono</label>
+                                    <input id="telefono" pInputText type="number" [(ngModel)]="venta.telefono" [disabled]="venta.estado !== 0" class="w-full" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchase Data Section -->
+            <div class="col-12" *ngIf="venta.estado==0">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-light p-3">
+                        <h5 class="m-0"><i class="pi pi-shopping-cart mr-2"></i>Datos de Venta</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="grid">
+                            <div class="col-12 md:col-4 lg:col-3">
+                                <div class="field mb-3">
+                                    <label for="animal" class="block text-sm font-medium mb-1">Animal</label>
+                                    <app-selector-animal (itemSeleccionado)="detalleVenta.animal=$event" class="block w-full"></app-selector-animal>
+                                </div>
+                                <div class="field mb-3">
+                                    <p-button label="Ver Historial" icon="pi pi-history" styleClass="p-button-info p-button-sm" (click)="verHistorialAplicaciones(detalleVenta.animal)" [disabled]="!detalleVenta.animal?.id"></p-button>
+                                </div>
+
+
+                                <div class="field mb-3">
+                                    <label class="block text-sm font-medium mb-1">Etapa</label>
+                                    <div class="p-2 bg-gray-100 rounded">{{detalleVenta.animal.etapa || 'No seleccionado'}}</div>
+                                </div>
+
+                                <div class="field mb-3">
+                                    <label class="block text-sm font-medium mb-1">Sexo</label>
+                                    <div class="p-2 bg-gray-100 rounded">{{detalleVenta.animal.sexo || 'No seleccionado'}}</div>
+                                </div>
+
+                                <div class="field mb-3">
+                                    <label class="block text-sm font-medium mb-1">Peso</label>
+                                    <div class="p-2 bg-gray-100 rounded">{{detalleVenta.animal.peso || 'No disponible'}}</div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 md:col-8 lg:col-9">
+                                <div class="grid">
+                                    <div class="col-12 md:col-6 lg:col-3">
+                                        <div class="field mb-3">
+                                            <label for="edad" class="block text-sm font-medium mb-1">Edad</label>
+                                            <input id="edad" pInputText type="number" [(ngModel)]="detalleVenta.edad" class="w-full" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 md:col-6 lg:col-3">
+                                        <div class="field mb-3">
+                                            <label for="peso" class="block text-sm font-medium mb-1">Peso Kg</label>
+                                            <input id="peso" pInputText type="number" [(ngModel)]="detalleVenta.peso"
+                                                   (ngModelChange)="detalleVenta.valor = detalleVenta.valorkg * detalleVenta.peso" class="w-full" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 md:col-6 lg:col-3">
+                                        <div class="field mb-3">
+                                            <label for="valor" class="block text-sm font-medium mb-1">Valor Kg</label>
+                                            <input id="valor" pInputText type="number" [(ngModel)]="detalleVenta.valorkg"
+                                                   (ngModelChange)="detalleVenta.valor = detalleVenta.valorkg * detalleVenta.peso" class="w-full" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 md:col-6 lg:col-3">
+                                        <div class="field mb-3">
+                                            <label for="total" class="block text-sm font-medium mb-1">Total</label>
+                                            <input id="total" pInputText type="number" [(ngModel)]="detalleVenta.valor" readonly class="w-full bg-gray-100" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-content-end mt-3">
+                                    <p-button label="Agregar" icon="pi pi-plus" styleClass="p-button-success" (click)="agregarDetalle()"></p-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Details Table Section -->
+            <div class="col-12">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-light p-3">
+                        <h5 class="m-0"><i class="pi pi-list mr-2"></i>Detalles de Venta</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <p-table [value]="detalles" [paginator]="true" [rows]="10" dataKey="id"
+                                 responsiveLayout="scroll" styleClass="p-datatable-sm">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Animal</th>
+                                    <th>Peso Compra</th>
+                                    <th>Peso Venta</th>
+                                    <th>Dif</th>
+                                    <th>Valor Kg Compra</th>
+                                    <th>Valor Kg Venta</th>
+                                    <th>Dif</th>
+                                    <th>Subtotal</th>
+                                    <th *ngIf="venta.estado==0" style="width: 80px">Acciones</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-detalle>
+                                <tr>
+                                    <td>{{ detalle.animal_nombre }}</td>
+                                    <td>{{ detalle.peso_compra }}</td>
+                                    <td>{{ detalle.peso_venta }}</td>
+                                    <td>{{ detalle.peso_dif }}</td>
+                                    <td>{{ detalle.valor_kg_compra | currency }}</td>
+                                    <td>{{ detalle.valor_kg_venta | currency }}</td>
+                                    <td>{{ detalle.valor_kg_dif }}</td>
+                                    <td>{{ detalle.subtotal | currency }}</td>
+                                    <td *ngIf="venta.estado==0" class="text-center">
+                                        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm"
+                                                (click)="quitarProducto(detalle.id)"></button>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="summary">
+                                <div class="flex flex-column md:flex-row justify-content-between align-items-center p-3">
+                                    <div class="mb-2 md:mb-0">
+                                        <span class="font-bold mr-2">Total Compra:</span>
+                                        <span class="text-xl text-primary">{{ calcularTotal() | currency }}</span>
+                                    </div>
+                                    <div>
+                                        <span class="font-bold mr-2">Cantidad Animal:</span>
+                                        <span class="text-xl text-primary">{{ totalcantidad }}</span>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Actions -->
+            <div class="col-12 flex justify-content-end mt-3 mb-3" *ngIf="venta.estado==0">
+                <p-button label="Finalizar Venta" icon="pi pi-check" styleClass="p-button-primary p-button-lg" (click)="confirm1()"></p-button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-confirmDialog [style]="{width: '90%', maxWidth: '50vw'}"></p-confirmDialog>
+<p-dialog
+    [(visible)]="historialDialog"
+    [modal]="true"
+    [style]="{width: '50vw'}"
+    header="Historial de Aplicaciones de Insumos"
+    [draggable]="false"
+    [resizable]="false">
+    <p-table [value]="historialAplicaciones" [paginator]="true" [rows]="10" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Insumo</th>
+                <th>Total Aplicado</th>
+                <th>Porcentaje Contenido</th>
+                <th>Costo Aplicado</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td>{{item.insumo}}</td>
+                <td>{{item.total_aplicado }}</td>
+                <td>{{item.porcentaje_contenido+'%' }}</td>
+                <td>{{item.costo_aplicado | currency }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
+
