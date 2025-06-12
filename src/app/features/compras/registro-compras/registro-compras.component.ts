@@ -28,6 +28,7 @@ export class RegistroComprasComponent implements OnInit {
     detalles:any=[];
     infoPedido:any=[];
     displayDialog:boolean=false;
+    loading:boolean=false;
 
     constructor(
         private animalService: AnimalService,
@@ -241,14 +242,23 @@ this.confirmationService.confirm({
     }
 
     crearCompra() {
-        this.compra.fechaCompra=this.today;
-        console.log(this.compra);
-        this.service.postData(this.compra)
+        if(this.compra.vendedor=='' || this.compra.vendedor==undefined){
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Advertencia',
+                detail: 'Debe ingresar un Vendedor',
+                life: 3000,
+            });
+            return;
+        }
+        this.compra.fechaCompra=this.today;      
+        this.service.postData(this.compra)       
         .subscribe(
             (response) => {
                 if (response.isSuccess == true) {
                     this.compraCreada=true;
                     this.compra_id=response.data.id;
+                    this.detalleCompra.compra_id=Number(this.compra_id);
                 }
             },
             (error) => {
@@ -263,6 +273,16 @@ this.confirmationService.confirm({
     }
 
     crearDetalle(item:any) {
+        if(this.detalleCompra.compra_id==undefined || this.detalleCompra.compra_id==null){
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Advertencia',
+                detail: 'Debe ingresar un Número de Compra',
+                life: 3000,
+            });
+            return;
+        }
+
         this.service.postDetalles(item)
         .subscribe(
             (response) => {
@@ -293,6 +313,8 @@ this.confirmationService.confirm({
                 });
             }
         );
+        this.detalleCompra={};
+        this.compra.animal={};
     }
 
 
@@ -334,7 +356,8 @@ this.confirmationService.confirm({
         this.compra.etapa.nombre='';
     }
 
-    agregarDetalle(){
+    agregarDetalle(){      
+
         if(this.compra.numero==''){
             this.messageService.add({
                 severity: 'warn',
@@ -344,14 +367,27 @@ this.confirmationService.confirm({
             });
             return;
         }
-        if(this.compra.animal.nombre==undefined || this.compra.animal.nombre==''){
+       
+        if(this.compra.vendedor==undefined || this.compra.vendedor==''){
             this.messageService.add({
                 severity: 'warn',
                 summary: 'Advertencia',
-                detail: 'Debe ingresar un Nombre de Animal',
+                detail: 'Debe ingresar un Vendedor',
                 life: 3000,
             });
             return;
+        }
+        if(this.compra.animal.numero ==undefined || this.compra.animal.numero==null){
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Advertencia',
+                detail: 'Debe ingresar una Número del Animal',
+                life: 3000,
+            });
+            return;
+        }
+        if(this.compra.animal.nombre==undefined || this.compra.animal.nombre==''){
+            this.compra.animal.nombre=this.compra.animal.numero.toString();
         }
 
 
@@ -364,6 +400,18 @@ this.confirmationService.confirm({
             });
             return;
         }
+
+        if(this.compra.animal.fechaNacimiento==undefined || this.compra.animal.fechaNacimiento==''){
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Advertencia',
+                detail: 'Debe ingresar una Fecha de Nacimiento',
+                life: 3000,
+            });
+            return;
+        }
+
+        
 
         if(this.compra.animal.etapa ==undefined || this.compra.animal.etapa==''){
             this.messageService.add({
@@ -404,13 +452,22 @@ this.confirmationService.confirm({
             return;
         }
         this.compra.animal.peso=this.detalleCompra.peso.toString();
-        this.detalleCompra.compra_id=Number(this.compra_id);
+        
         this.detalleCompra.numero=this.compra.numero;
         this.detalleCompra.animal=this.compra.animal;
+        this.loading=true;
         if(this.compraCreada==false){
             this.crearCompra();
+        }else{
+            this.detalleCompra.compra_id=Number(this.compra_id);
         }
-        this.crearDetalle(this.detalleCompra);
+        setTimeout(() => {
+            this.crearDetalle(this.detalleCompra);
+            this.loading=false;
+        }, 1500);
+        
+      
+       
 
 
 
@@ -497,6 +554,12 @@ confirm1() {
 
 actualizarPedido() {
     location.reload(); // Recargar la página
+}
+
+nuevaCompra(){
+    this.router.navigateByUrl('/', {skipLocationChange:true}).then(()=>{
+        this.router.navigate(['compras/registro/0']);
+    })
 }
 
 }

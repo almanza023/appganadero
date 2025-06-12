@@ -123,7 +123,7 @@
                         </td>
                         <td style="width: 26%; min-width: 10rem">
                             <span class="p-column-title">Estado</span>
-                            {{ item.estado == 1 ? 'CREADA' : item.estado == 2 ? 'FINALIZADO' : 'ANULADA' }}
+                            {{ item.estado == 0 ? 'CREADA' : item.estado == 1 ? 'FINALIZADA' : 'ANULADA' }}
                         </td>
                         <td>
                             <div class="flex">
@@ -135,7 +135,7 @@
                                     class="p-button-rounded p-button-success mr-2"
                                     tooltip="Ver Historial"
                                 ></button>
-                                <p-button *ngIf="item.estado === 1 "
+                                <p-button *ngIf="item.estado === 1 || item.estado === 0 "
                                     (click)="bloqueoCliente(item)"
                                     icon="pi pi-times"
                                     styleClass="p-button-rounded p-button-danger"

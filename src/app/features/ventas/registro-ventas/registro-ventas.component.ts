@@ -6,9 +6,7 @@ import { finalize } from 'rxjs';
 import { Venta } from 'src/app/core/interface/Venta';
 import { DetalleVenta } from 'src/app/core/interface/DetalleVenta';
 import { VentasService } from 'src/app/core/services/ventas.service';
-import { SelectorEtapaComponent } from 'src/app/shared/components/selector-etapa/selector-etapa.component';
 import { AnimalService } from 'src/app/core/services/animal.service';
-import { EtapasService } from 'src/app/core/services/etapas.service';
 
 
 @Component({
@@ -30,6 +28,7 @@ export class RegistroVentasComponent implements OnInit {
     displayDialog:boolean=false;
     historialDialog:boolean=false;
     historialAplicaciones:any=[];
+    loading:boolean=false;
 
     constructor(
         private animalService: AnimalService,
@@ -240,6 +239,7 @@ this.confirmationService.confirm({
                 if (response.isSuccess == true) {
                     this.ventaCreada=true;
                     this.venta_id=response.data.id;
+                    this.detalleVenta.venta_id=Number(response.data.id);
                 }
             },
             (error) => {
@@ -254,6 +254,16 @@ this.confirmationService.confirm({
     }
 
     crearDetalle(item:any) {
+        if(this.venta_id==undefined || this.venta_id==null){
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Advertencia',
+                detail: 'Debe ingresar un Número de Venta',
+                life: 3000,
+            });
+            return;
+        }
+        
         this.service.postDetalles(item)
         .subscribe(
             (response) => {
@@ -306,6 +316,15 @@ this.confirmationService.confirm({
             });
             return;
         }
+        if(this.venta.documento=='' || this.venta.documento==null){
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Advertencia',
+                detail: 'Debe ingresar un Documento',
+                life: 3000,
+            });
+            return;
+        }
 
         if(this.detalleVenta.animal.id==undefined || this.detalleVenta.animal.id==0){
             this.messageService.add({
@@ -345,11 +364,19 @@ this.confirmationService.confirm({
             });
             return;
         }
-        this.detalleVenta.venta_id=Number(this.venta_id);
+       
+        this.loading=true;
         if(this.ventaCreada==false){
             this.crearVenta();
+            this.loading=false;
+        }else{
+            this.detalleVenta.venta_id=Number(this.venta_id);
         }
-        this.crearDetalle(this.detalleVenta);
+        setTimeout(() => {
+            this.crearDetalle(this.detalleVenta);
+            this.loading=false;
+            this.detalleVenta={};
+        }, 100);
 
 
 
@@ -463,6 +490,12 @@ verHistorialAplicaciones(item:any){
             });
         }
     );
+}
+
+nuevaVenta(numero:any){ 
+    this.router.navigateByUrl('/', {skipLocationChange:true}).then(()=>{
+        this.router.navigate(['ventas/registro/'+numero]);
+    })
 }
 
 

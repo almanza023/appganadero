@@ -1,4 +1,5 @@
 <p-toast></p-toast>
+<app-loading *ngIf="loading"></app-loading>
 <div class="p-fluid">
     <div class="card">
         <div class="grid">
@@ -9,7 +10,9 @@
                         <label for="fecha">N° Compra</label>
                         <h3><b>{{compra.numero}}</b></h3>
                     </div>
+                    <p-button label="Nueva Compra" icon="pi pi-plus" (click)="nuevaCompra()" styleClass="p-button-success"></p-button>
                     <p-button label="Actualizar" icon="pi pi-refresh" (click)="actualizarPedido()" styleClass="p-button-warning"></p-button>
+
                 </div>
             </div>
             <div class="col-12 md:col-6 lg:col-4">
@@ -35,6 +38,12 @@
                         <div class="grid">
                             <div class="col-12 md:col-6 lg:col-3">
                                 <div class="field">
+                                    <label for="nombre">Número</label>
+                                    <input pInputText id="nombre" type="text" [(ngModel)]="compra.animal.numero" />
+                                </div>
+                            </div>
+                            <div class="col-12 md:col-6 lg:col-3">
+                                <div class="field">
                                     <label for="nombre">Nombre</label>
                                     <input pInputText id="nombre" type="text" [(ngModel)]="compra.animal.nombre" />
                                 </div>
@@ -53,7 +62,7 @@
                             </div>
                             <div class="col-12 md:col-6 lg:col-3">
                                 <div class="field">
-                                    <label for="etapa">Etapa</label>
+                                    <label for="etapa">Categoría</label>
                                     <div class="p-inputgroup">
                                         <input pInputText type="text" [(ngModel)]="compra.etapa.nombre" />
                                         <button pButton pRipple icon="pi pi-plus" class="p-button-success" (click)="agregarEtapa()"></button>
@@ -77,19 +86,45 @@
                             <div class="col-12 md:col-4">
                                 <div class="field">
                                     <label for="peso">Peso Kg</label>
-                                    <input id="peso" pInputText type="number" [(ngModel)]="detalleCompra.peso" (ngModelChange)="detalleCompra.total = detalleCompra.valor * detalleCompra.peso" />
+                                    <p-inputNumber
+                                    [(ngModel)]="detalleCompra.peso"
+                                    (ngModelChange)="detalleCompra.total = detalleCompra.valor * detalleCompra.peso"
+                                    mode="decimal"
+                                    [minFractionDigits]="0"
+                                    [maxFractionDigits]="2"
+                                    [showButtons]="false"
+                                    [useGrouping]="true"
+                                    placeholder="Ingrese peso"
+                                ></p-inputNumber>
                                 </div>
                             </div>
                             <div class="col-12 md:col-4">
                                 <div class="field">
                                     <label for="valor">Valor Kg</label>
-                                    <input id="valor" pInputText type="number" [(ngModel)]="detalleCompra.valor" (ngModelChange)="detalleCompra.total = detalleCompra.valor * detalleCompra.peso" />
+                                    <p-inputNumber
+                                    [(ngModel)]="detalleCompra.valor"
+                                    (ngModelChange)="detalleCompra.total = detalleCompra.valor * detalleCompra.peso"
+                                    mode="decimal"
+                                    [minFractionDigits]="0"
+                                    [maxFractionDigits]="2"
+                                    [showButtons]="false"
+                                    [useGrouping]="true"
+                                    placeholder="Ingrese Valor Kg"
+                                ></p-inputNumber>
+
                                 </div>
                             </div>
                             <div class="col-12 md:col-4">
                                 <div class="field">
                                     <label for="total">Total</label>
-                                    <input id="total" pInputText type="number" [(ngModel)]="detalleCompra.total" readonly />
+                                    <p-inputNumber
+                                    [(ngModel)]="detalleCompra.total"                                   
+                                    mode="decimal"
+                                    [minFractionDigits]="0"
+                                    [maxFractionDigits]="2"
+                                    [showButtons]="false"
+                                    [useGrouping]="true"                                   
+                                ></p-inputNumber>
                                 </div>
                             </div>
                             <div class="col-12 text-right">
@@ -110,6 +145,7 @@
                         <p-table [value]="detalles" [paginator]="true" [rows]="10" dataKey="id" responsiveLayout="scroll" styleClass="p-datatable-sm">
                             <ng-template pTemplate="header">
                                 <tr>
+                                    <th>Número</th>
                                     <th>Animal</th>
                                     <th>Sexo</th>
                                     <th>Etapa</th>
@@ -121,6 +157,7 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-detalle>
                                 <tr>
+                                    <td>{{ detalle.animal.numero }}</td>
                                     <td>{{ detalle.animal.nombre }}</td>
                                     <td>{{ detalle.animal.sexo }}</td>
                                     <td>{{ detalle.animal.etapa }}</td>
