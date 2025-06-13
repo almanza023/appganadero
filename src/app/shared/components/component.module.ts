@@ -34,11 +34,6 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { SelectorProveedorComponent } from './selector-proveedor/selector-proveedor.component';
 import { SelectorUserComponent } from './selector-user/selector-user.component';
-import { TicketposComponent } from './ticketpos/ticketpos.component';
-import { TicketAperturaCajaComponent } from './ticket-apertura-caja/ticket-apertura-caja.component';
-import { TicketPosDetalleComponent } from './ticketpos-detalle/ticketpos-detalle.component';
-import { TickekCierreCajaComponent } from './ticket-cierre-caja/ticket-cierre-caja.component';
-import { TicketPosProductosComponent } from './ticketpos-productos/ticketpos-productos.component';
 import { SelectorSexoComponent } from './selector-sexo/selector-sexo.component';
 import { SelectorEtapaComponent } from './selector-etapa/selector-etapa.component';
 import { PanelModule } from 'primeng/panel';
@@ -64,10 +59,6 @@ import { SelectorInsumosComponent } from './selector-insumos/selector-insumos.co
     SelectorProductoComponent,
     SelectorInsumosComponent,
     RegistroProductoComponent,
-    TicketposComponent,
-    TicketAperturaCajaComponent, TicketPosDetalleComponent,
-    TickekCierreCajaComponent,
-    TicketPosProductosComponent
   ],
   imports: [
     CommonModule,
@@ -89,9 +80,8 @@ import { SelectorInsumosComponent } from './selector-insumos/selector-insumos.co
     SelectorEstadoComponent,SelectorProductoComponent,
     SelectorProveedorComponent, SelectorTipoProductoComponent,
     LoadingComponent, ConfirmDialogModule, SelectorTiPoUnidadComponent,
-    SelectorUserComponent,TicketposComponent,
-    TicketAperturaCajaComponent, TicketPosDetalleComponent,PanelModule,
-    TickekCierreCajaComponent, TicketPosProductosComponent,
+    SelectorUserComponent,PanelModule,
+     SelectorTipoProductoComponent
   ]
 })
 export class ComponentModule { }
