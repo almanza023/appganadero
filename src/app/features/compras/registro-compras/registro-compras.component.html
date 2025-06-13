@@ -10,8 +10,8 @@
                         <label for="fecha">N° Compra</label>
                         <h3><b>{{compra.numero}}</b></h3>
                     </div>
-                    <p-button label="Nueva Compra" icon="pi pi-plus" (click)="nuevaCompra()" styleClass="p-button-success"></p-button>
-                    <p-button label="Actualizar" icon="pi pi-refresh" (click)="actualizarPedido()" styleClass="p-button-warning"></p-button>
+                    <p-button label="Nueva Compra" icon="pi pi-plus" (click)="redireccionar(0)" styleClass="p-button-success"></p-button>
+                    <p-button label="Actualizar" icon="pi pi-refresh" (click)="redireccionar(compra_id)" styleClass="p-button-warning"></p-button>
 
                 </div>
             </div>
@@ -118,12 +118,12 @@
                                 <div class="field">
                                     <label for="total">Total</label>
                                     <p-inputNumber
-                                    [(ngModel)]="detalleCompra.total"                                   
+                                    [(ngModel)]="detalleCompra.total"
                                     mode="decimal"
                                     [minFractionDigits]="0"
                                     [maxFractionDigits]="2"
                                     [showButtons]="false"
-                                    [useGrouping]="true"                                   
+                                    [useGrouping]="true"
                                 ></p-inputNumber>
                                 </div>
                             </div>

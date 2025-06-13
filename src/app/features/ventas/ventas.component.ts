@@ -197,7 +197,7 @@ export class VentasComponent {
         this.service.getById(pedido_id)
         .subscribe(
             (response) => {
-                //console.log(response.data);
+                console.log(response.data.detalles);
                 this.clienteDialog=true;
                 this.detalles = response.data.detalles;
             },
@@ -213,9 +213,8 @@ export class VentasComponent {
     }
 
     calcularTotal() {
-
         this.totalpedido=this.detalles.reduce(
-            (total, detalle) => Number(total) + Number(detalle.total),
+            (total, detalle) => Number(total) + Number(detalle.subtotal),
             0
         );
         return this.totalpedido;

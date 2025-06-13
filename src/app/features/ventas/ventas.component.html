@@ -175,10 +175,10 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-detalle>
                     <tr>
-                        <td>{{ detalle.animal.nombre }}</td>
-                        <td>{{ detalle.peso }}</td>
-                        <td>{{ detalle.valor | currency }}</td>
-                        <td>{{ detalle.total | currency }}</td>
+                        <td>{{ detalle.animal_numero }}</td>
+                        <td>{{ detalle.peso_venta }}</td>
+                        <td>{{ detalle.valor_kg_venta | currency }}</td>
+                        <td>{{ detalle.subtotal | currency }}</td>
                     </tr>
                 </ng-template>
             </p-table>

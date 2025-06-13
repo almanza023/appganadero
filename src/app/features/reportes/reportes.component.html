@@ -1,0 +1,49 @@
+<p-toast></p-toast>
+<app-loading *ngIf="loading"></app-loading>
+<div class="grid">
+    <div class="col-12">
+        <p-toast></p-toast>
+        <div class="card p-fluid">
+            <div class="grid">
+                <div class="col-12 md:col-6 lg:col-6">
+                    <h3>{{ nombreModulo }}</h3>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="field col-12 md:col-4">
+                    <label for="tipoReporte">Tipo Reporte</label>
+                    <p-dropdown
+                        inputId="tipoReporte"
+                        [options]="tiposReporte"
+                        [(ngModel)]="tipoReporteSeleccionado"
+                        (onChange)="cambiarTipoReporte($event)"
+                        placeholder="Seleccione un tipo">
+                    </p-dropdown>
+                </div>
+                <div class="field col-12 md:col-4" *ngIf="visible">
+                    <label for="tipoReporte">Animal</label>
+                   <app-selector-animal [vendido]="true" (itemSeleccionado)="animal_id = $event.id"></app-selector-animal>
+                </div>
+                <div class="field col-12 md:col-3" *ngIf="visibleFecha">
+                    <label for="fechaInicio">Fecha Inicio</label>
+                    <p-calendar [(ngModel)]="fechaInicio" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+                </div>
+                <div class="field col-12 md:col-3" *ngIf="visibleFecha">
+                    <label for="fechaFin">Fecha Fin</label>
+                    <p-calendar [(ngModel)]="fechaFin" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+                </div>
+                <div class="field col-12 md:col-2 flex align-items-end">
+                    <button
+                        pButton
+                        type="button"
+                        label="Generar Reporte"
+                        icon="pi pi-file-excel"
+                        class="p-button-success w-full"
+                        (click)="generarReporte()">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

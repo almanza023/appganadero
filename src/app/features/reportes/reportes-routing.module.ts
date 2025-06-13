@@ -1,16 +1,11 @@
-
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { ReportesComponent } from './reportes.component';
 
-import { ReporteDiaComponent } from './reporte-dia/reporte-dia.component';
-import { ReporteDiaHistoricosComponent } from './reporte-dia-historicos/reporte-dia-historicos.component';
-
+const routes: Routes = [{ path: '', component: ReportesComponent }];
 
 @NgModule({
-    imports: [RouterModule.forChild([
-        { path: 'dia', component: ReporteDiaComponent },
-        { path: 'historicos', component: ReporteDiaHistoricosComponent },
-    ])],
-    exports: [RouterModule]
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
-export class ReportesRoutingModule { }
+export class reportesRoutingModule { }

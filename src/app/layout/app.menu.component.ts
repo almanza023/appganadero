@@ -43,9 +43,9 @@ export class AppMenuComponent implements OnInit {
 
                 },
                 {
-                    label: 'Etapas',
+                    label: 'Categorías',
                     icon: 'pi pi-fw pi-align-justify',
-                    routerLink: 'etapas',
+                    routerLink: 'categorias',
                 },
                 {
                     label: 'Usuarios',
@@ -90,6 +90,11 @@ export class AppMenuComponent implements OnInit {
                         label: 'Ventas',
                         icon: 'pi pi-fw pi-align-justify',
                         command: () => this.reloadCurrentRoute('ventas')
+                    },
+                    {
+                        label: 'Reportes',
+                        icon: 'pi pi-fw pi-align-justify',
+                        command: () => this.reloadCurrentRoute('reportes')
                     },
                 ]
             };

@@ -64,6 +64,12 @@ export class AnimalService {
     return this.http.get<any>(url, {headers});
   }
 
+  getAnimalesVenta(): Observable<any> {
+    const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
+    let url=`${environment.baseURL}/animales-venta`;
+    return this.http.get<any>(url, {headers});
+  }
+
 
 
 

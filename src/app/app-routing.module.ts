@@ -35,7 +35,7 @@ import { CajaGuard } from './core/guards/caja.guard';
                         canActivate: [AuthGuard, CajaGuard]
                     },
                     {
-                        path: 'etapas', loadChildren: () => import('./features/etapas/etapas.module').then(m => m.EtapasModule),
+                        path: 'categorias', loadChildren: () => import('./features/etapas/etapas.module').then(m => m.EtapasModule),
                         canActivate: [AuthGuard, CajaGuard]
                     },
                     {
@@ -75,10 +75,12 @@ import { CajaGuard } from './core/guards/caja.guard';
                         path: 'cambiar-clave', loadChildren: () => import('./features/cambiar-clave/cambiar-clave.module').then(m => m.CambiarClaveModule),
                         canActivate: [AuthGuard]
                     },
+
                     {
                         path: 'reportes', loadChildren: () => import('./features/reportes/reportes.module').then(m => m.ReportesModule),
-                        canActivate: [AuthGuard, CajaGuard]
+                        canActivate: [AuthGuard]
                     },
+
 
 
                 ]

@@ -13,18 +13,32 @@ export class SelectorAnimalComponent {
   arraySeleccionado:any=[];
   @Input() valor:any={};
   @Input() disabled:boolean=false;
-  @Input() lider:string;
+  @Input() vendido:boolean=false;
 
   @Output() itemSeleccionado:EventEmitter<any> =new EventEmitter<any>();
   selectedCliente:string="";
   constructor(private service: AnimalService) { }
 
   ngOnInit(): void {
-    this.getData();
+    if(this.vendido){
+    this.getAnimalVenta();
+    }else{
+        this.getAnimalCompra();
+    }
     this.seleccionado={};
   }
-  getData(){
+  getAnimalCompra(){
     this.service.getAnimalesCompra()
+    .subscribe(response => {
+      this.items=response.data;
+      //console.log(response.data)
+      } ,error => {
+        //console.log( error.error)
+      });
+  }
+
+   getAnimalVenta(){
+    this.service.getAnimalesVenta()
     .subscribe(response => {
       this.items=response.data;
       //console.log(response.data)

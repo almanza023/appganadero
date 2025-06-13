@@ -89,6 +89,18 @@ getByNumero(data:any): Observable<any> {
       return this.http.get<any>(url, {headers});
     }
 
+    reporteConsolidado(data:any): Observable<any> {
+    const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
+    let url=`${environment.baseURL}/animalventas-consolidado-general`;
+    return this.http.post<any>(url, data, {headers});
+  }
+
+  reporteConsolidadoIndividual(data:any): Observable<any> {
+    const headers = { 'Authorization': 'Bearer '+localStorage.getItem('token') }
+    let url=`${environment.baseURL}/animalventas-individual`;
+    return this.http.post<any>(url, data, {headers});
+  }
+
 
 
 

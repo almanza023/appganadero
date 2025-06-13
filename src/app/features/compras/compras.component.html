@@ -167,7 +167,8 @@
             <p-table [value]="detalles" [paginator]="true" [rows]="10" dataKey="id" responsiveLayout="scroll">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Animal</th>
+                        <th>Animal Número</th>
+                        <th>Animal Nombre</th>
                         <th>Peso</th>
                         <th>Valor</th>
                         <th>Total</th>
@@ -175,6 +176,7 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-detalle>
                     <tr>
+                        <td>{{ detalle.animal.numero }}</td>
                         <td>{{ detalle.animal.nombre }}</td>
                         <td>{{ detalle.peso }}</td>
                         <td>{{ detalle.valor | currency }}</td>

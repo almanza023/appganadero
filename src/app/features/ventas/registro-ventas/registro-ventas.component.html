@@ -10,8 +10,8 @@
                         <label for="fecha" class="block text-sm font-medium mb-1">N° Venta</label>
                         <h3 class="m-0"><b>{{venta.codigo}}</b></h3>
                     </div>
-                    <p-button label="Nueva Venta" icon="pi pi-plus" (click)="nuevaVenta(0)" styleClass="p-button-success"></p-button>
-                    <p-button label="Actualizar" icon="pi pi-refresh" (click)="actualizarPedido()" styleClass="p-button-warning"></p-button>
+                    <p-button label="Nueva Venta" icon="pi pi-plus" (click)="redireccionar(0)" styleClass="p-button-success"></p-button>
+                    <p-button label="Actualizar" icon="pi pi-refresh" (click)="redireccionar(venta_id)" styleClass="p-button-warning"></p-button>
                 </div>
             </div>
 

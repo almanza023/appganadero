@@ -81,6 +81,10 @@
                             Nombre
                             <p-sortIcon field="producto.nombre"></p-sortIcon>
                         </th>
+                         <th pSortableColumn="producto.nombre">
+                            Unidad
+                            <p-sortIcon field="producto.nombre"></p-sortIcon>
+                        </th>
                         <th pSortableColumn="fecha">
                             Fecha
                             <p-sortIcon field="fecha"></p-sortIcon>
@@ -91,6 +95,10 @@
                         </th>
                         <th pSortableColumn="cantidad">
                             Cantidad
+                            <p-sortIcon field="cantidad"></p-sortIcon>
+                        </th>
+                         <th pSortableColumn="cantidad">
+                            Contenido Individual
                             <p-sortIcon field="cantidad"></p-sortIcon>
                         </th>
                         <th pSortableColumn="total_contenido">
@@ -131,6 +139,10 @@
                             {{ item.producto?.nombre }}
                         </td>
                         <td style="width: 32%; min-width: 10rem">
+                            <span class="p-column-title">Unidad</span>
+                            {{ item.producto?.tipo_unidad?.nombre }}
+                        </td>
+                        <td style="width: 32%; min-width: 10rem">
                             <span class="p-column-title">Fecha</span>
                             {{ item.fecha }}
                         </td>
@@ -141,6 +153,10 @@
                         <td style="width: 32%; min-width: 10rem">
                             <span class="p-column-title">Cantidad</span>
                             {{ item.cantidad }}
+                        </td>
+                        <td style="width: 32%; min-width: 10rem">
+                            <span class="p-column-title">Contenido Individual</span>
+                            {{ item.producto?.contenido }}
                         </td>
                         <td style="width: 32%; min-width: 10rem">
                             <span class="p-column-title">Total Contenido</span>

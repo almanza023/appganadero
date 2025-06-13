@@ -137,14 +137,42 @@ export class InsumosComponent {
 
 
     bloqueoInsumo(insumo: any) {
+         this.verHistorialAplicaciones(insumo, false);
+        setTimeout(() => {
+             if(this.historialAplicaciones.length>0){
+            this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Advertencia',
+                        detail: 'No se puede bloquear el insumo, ya tiene aplicaciones',
+                        life: 4000,
+                    });
+                    return;
+
+        }
         this.deleteProductDialog = true;
         this.insumo = { ...insumo };
+        }, 1200);
+
 
     }
     editInsumo(insumo: any) {
+        this.verHistorialAplicaciones(insumo, false);
+       setTimeout(() => {
+         if(this.historialAplicaciones.length>0){
+            this.messageService.add({
+                        severity: 'warn',
+                        summary: 'Advertencia',
+                        detail: 'No se puede editar un insumo que ya ha sido aplicado',
+                        life: 3000,
+                    });
+                    return;
+
+        }
         this.insumoDialog = true;
         this.insumo = { ...insumo };
         this.selectorProducto.filtrar(this.insumo.id_producto)
+
+       }, 1000);
 
     }
 
@@ -326,8 +354,8 @@ export class InsumosComponent {
             this.insumo = {};
     }
 
-    verHistorialAplicaciones(item:any){
-        this.historialDialog=true;
+    verHistorialAplicaciones(item:any, modal:boolean=true){
+        this.historialDialog=modal;
         this.historialAplicaciones=[];
         this.service.getHistorialAplicaciones(item.id)
         .subscribe(

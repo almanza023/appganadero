@@ -195,6 +195,8 @@ this.confirmationService.confirm({
     }
 
     getCompra(numero:any) {
+        this.loading=true;
+        setTimeout(() => {
         this.service.getById(numero)
         .pipe(finalize(() => this.mapearDatos()))
         .subscribe(
@@ -203,8 +205,10 @@ this.confirmationService.confirm({
                 this.infoPedido = response.data;
                 this.totalcantidad='0';
                 this.totalcompra='0';
+                this.loading=false;
             },
             (error) => {
+                this.loading=false;
                 this.messageService.add({
                     severity: 'warn',
                     summary: 'Advertencia',
@@ -213,6 +217,7 @@ this.confirmationService.confirm({
                 });
             }
         );
+        }, 1500);
     }
 
     getCompraByNumero(numero:any) {
@@ -251,8 +256,8 @@ this.confirmationService.confirm({
             });
             return;
         }
-        this.compra.fechaCompra=this.today;      
-        this.service.postData(this.compra)       
+        this.compra.fechaCompra=this.today;
+        this.service.postData(this.compra)
         .subscribe(
             (response) => {
                 if (response.isSuccess == true) {
@@ -356,7 +361,7 @@ this.confirmationService.confirm({
         this.compra.etapa.nombre='';
     }
 
-    agregarDetalle(){      
+    agregarDetalle(){
 
         if(this.compra.numero==''){
             this.messageService.add({
@@ -367,7 +372,7 @@ this.confirmationService.confirm({
             });
             return;
         }
-       
+
         if(this.compra.vendedor==undefined || this.compra.vendedor==''){
             this.messageService.add({
                 severity: 'warn',
@@ -411,7 +416,7 @@ this.confirmationService.confirm({
             return;
         }
 
-        
+
 
         if(this.compra.animal.etapa ==undefined || this.compra.animal.etapa==''){
             this.messageService.add({
@@ -452,7 +457,7 @@ this.confirmationService.confirm({
             return;
         }
         this.compra.animal.peso=this.detalleCompra.peso.toString();
-        
+
         this.detalleCompra.numero=this.compra.numero;
         this.detalleCompra.animal=this.compra.animal;
         this.loading=true;
@@ -465,9 +470,9 @@ this.confirmationService.confirm({
             this.crearDetalle(this.detalleCompra);
             this.loading=false;
         }, 1500);
-        
-      
-       
+
+
+
 
 
 
@@ -552,14 +557,14 @@ confirm1() {
 }
 
 
-actualizarPedido() {
-    location.reload(); // Recargar la página
-}
-
-nuevaCompra(){
+redireccionar(numero:any){
+  if(numero==undefined || numero==''){
+    numero='0';
+  }
     this.router.navigateByUrl('/', {skipLocationChange:true}).then(()=>{
-        this.router.navigate(['compras/registro/0']);
+        this.router.navigate(['compras/registro/'+numero]);
     })
 }
+
 
 }

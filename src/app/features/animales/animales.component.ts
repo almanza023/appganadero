@@ -26,6 +26,7 @@ export class AnimalesComponent {
     item: any = {};
     rowsPerPageOptions = [5, 10, 20];
     nombreModulo: string = 'Módulo de Animales';
+    loading:boolean = false;
 
     constructor(
         private service: AnimalService,
@@ -39,10 +40,13 @@ export class AnimalesComponent {
     }
 
     getDataAll() {
-        this.service.getAll().subscribe(
+        this.loading = true;
+        setTimeout(() => {
+            this.service.getAll().subscribe(
             (response) => {
                 //console.log(response.data);
                 this.data = response.data;
+                this.loading=false;
             },
             (error) => {
                 this.messageService.add({
@@ -51,8 +55,11 @@ export class AnimalesComponent {
                     detail: error.error.data,
                     life: 3000,
                 });
+                this.loading=false;
+
             }
         );
+        }, 1500);
     }
 
     openNew() {
@@ -136,7 +143,7 @@ export class AnimalesComponent {
             this.actualizar(this.animal.id, this.animal);
         }
         //this.clientes = [...this.clientes];
-        //this.clienteDialog = false;
+        this.clienteDialog = false;
         this.animal = {};
         this.seleccionado = {};
     }

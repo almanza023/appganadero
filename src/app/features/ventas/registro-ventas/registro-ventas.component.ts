@@ -7,6 +7,7 @@ import { Venta } from 'src/app/core/interface/Venta';
 import { DetalleVenta } from 'src/app/core/interface/DetalleVenta';
 import { VentasService } from 'src/app/core/services/ventas.service';
 import { AnimalService } from 'src/app/core/services/animal.service';
+import { SelectorAnimalComponent } from 'src/app/shared/components/selector-animal/selector-animal.component';
 
 
 @Component({
@@ -29,6 +30,8 @@ export class RegistroVentasComponent implements OnInit {
     historialDialog:boolean=false;
     historialAplicaciones:any=[];
     loading:boolean=false;
+
+    @ViewChild(SelectorAnimalComponent) selectorAnimalComponent!: SelectorAnimalComponent;
 
     constructor(
         private animalService: AnimalService,
@@ -181,6 +184,8 @@ this.confirmationService.confirm({
     }
 
     getVenta(numero:any) {
+        this.loading=true;
+        setTimeout(() => {
         this.service.getById(numero)
         .pipe(finalize(() => this.mapearDatos()))
         .subscribe(
@@ -189,6 +194,7 @@ this.confirmationService.confirm({
                 this.infoPedido = response.data;
                 this.totalcantidad='0';
                 this.totalventa='0';
+                this.loading=false;
             },
             (error) => {
                 this.messageService.add({
@@ -197,8 +203,10 @@ this.confirmationService.confirm({
                     detail: error.error.data,
                     life: 3000,
                 });
+                 this.loading=false;
             }
         );
+        }, 1000);
     }
 
     getVentaByNumero(numero:any) {
@@ -236,6 +244,7 @@ this.confirmationService.confirm({
         this.service.postData(this.venta)
         .subscribe(
             (response) => {
+                console.log(response);
                 if (response.isSuccess == true) {
                     this.ventaCreada=true;
                     this.venta_id=response.data.id;
@@ -263,7 +272,7 @@ this.confirmationService.confirm({
             });
             return;
         }
-        
+
         this.service.postDetalles(item)
         .subscribe(
             (response) => {
@@ -364,7 +373,7 @@ this.confirmationService.confirm({
             });
             return;
         }
-       
+
         this.loading=true;
         if(this.ventaCreada==false){
             this.crearVenta();
@@ -375,8 +384,10 @@ this.confirmationService.confirm({
         setTimeout(() => {
             this.crearDetalle(this.detalleVenta);
             this.loading=false;
-            this.detalleVenta={};
-        }, 100);
+                this.detalleVenta={};
+                this.detalleVenta.animal={};
+                this.selectorAnimalComponent.reiniciarComponente(); // Resetea el selector de animales
+        }, 1500);
 
 
 
@@ -460,10 +471,6 @@ confirm1() {
 }
 
 
-actualizarPedido() {
-    location.reload(); // Recargar la página
-}
-
 verHistorialAplicaciones(item:any){
     this.historialDialog=true;
     this.historialAplicaciones=[];
@@ -492,7 +499,10 @@ verHistorialAplicaciones(item:any){
     );
 }
 
-nuevaVenta(numero:any){ 
+redireccionar(numero:any){
+  if(numero==undefined || numero==''){
+    numero='0';
+  }
     this.router.navigateByUrl('/', {skipLocationChange:true}).then(()=>{
         this.router.navigate(['ventas/registro/'+numero]);
     })

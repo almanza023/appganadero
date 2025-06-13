@@ -1,3 +1,4 @@
+<app-loading *ngIf="loading"></app-loading>
 <div class="grid">
     <div class="col-12">
         <p-toast></p-toast>
@@ -14,12 +15,6 @@
                         styleClass="p-button-primary"
                         icon="pi pi-search"
                         (click)="getDataAll()"
-                    ></p-button>
-                    <p-button
-                        label="Crear"
-                        styleClass="p-button-success"
-                        icon="pi pi-plus"
-                        (click)="openNew()"
                     ></p-button>
                 </div>
             </div>
@@ -51,17 +46,13 @@
                 </ng-template>
                 <ng-template pTemplate="header">
                     <tr>
-                        <th pSortableColumn="id">
-                            Código
-                            <p-sortIcon field="id"></p-sortIcon>
+                        <th pSortableColumn="numero">
+                            Número
+                            <p-sortIcon field="numero"></p-sortIcon>
                         </th>
                         <th pSortableColumn="nombre">
                             Nombre
                             <p-sortIcon field="nombre"></p-sortIcon>
-                        </th>
-                        <th pSortableColumn="codigo">
-                            Código
-                            <p-sortIcon field="codigo"></p-sortIcon>
                         </th>
                         <th pSortableColumn="sexo">
                             Sexo
@@ -89,13 +80,10 @@
                 <ng-template pTemplate="body" let-item>
                     <tr>
                         <td style="width: 10%; min-width: 10rem">
-                            <span class="p-column-title">Código</span> {{ item.id }}
+                            <span class="p-column-title">Número</span> {{ item.numero }}
                         </td>
                         <td style="width: 54%; min-width: 10rem">
                             <span class="p-column-title">Nombre</span> {{ item.nombre }}
-                        </td>
-                        <td style="width: 54%; min-width: 10rem">
-                            <span class="p-column-title">Código</span> {{ item.codigo }}
                         </td>
                         <td style="width: 54%; min-width: 10rem">
                             <span class="p-column-title">Sexo</span> {{ item.sexo }}
@@ -107,7 +95,7 @@
                             <span class="p-column-title">Peso</span> {{ item.peso }}
                         </td>
                         <td style="width: 54%; min-width: 10rem">
-                            <span class="p-column-title">Etapa</span> {{ item.etapa }}
+                            <span class="p-column-title">Categoría</span> {{ item.etapa }}
                         </td>
                         <td style="width: 54%; min-width: 10rem">
                             <span class="p-column-title">Estado</span>
@@ -123,7 +111,7 @@
                         <td>
                             <div class="flex" *ngIf="item.estado == '1'">
                                 <button (click)="edit(item)" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"></button>
-                                <p-button (click)="bloquear(item)" icon="pi pi-check" styleClass="p-button-rounded p-button-warning"></p-button>
+                                <!-- <p-button (click)="bloquear(item)" icon="pi pi-check" styleClass="p-button-rounded p-button-warning"></p-button> -->
 
                             </div>
                         </td>
@@ -132,7 +120,7 @@
             </p-table>
         </div>
 
-        <p-dialog [(visible)]="clienteDialog" [style]="{width: '450px'}" [modal]="true" header class="p-fluid">
+        <p-dialog [(visible)]="clienteDialog" [style]="{width: '650px'}" [modal]="true" header class="p-fluid">
             <div class="grid">
                 <div class="col-12">
                     <div class="card p-fluid">
@@ -143,22 +131,22 @@
                                 </h3>
                             </div>
                         </div>
+
+                         <div class="field grid">
+                            <label htmlFor="name3" class="col-12 mb-1 md:col-1 md:mb-0">
+								<b>Número</b>
+							</label>
+                            <div class="col-12 md:col-12">
+                                <input type="text" pInputText [(ngModel)]="animal.numero" />
+                            </div>
+                        </div>
+
                         <div class="field grid">
                             <label htmlFor="name3" class="col-12 mb-1 md:col-1 md:mb-0">
 								<b>Nombre</b>
 							</label>
                             <div class="col-12 md:col-12">
-
                                 <input type="text" pInputText [(ngModel)]="animal.nombre" />
-
-                            </div>
-                        </div>
-                        <div class="field grid">
-                            <label htmlFor="name3" class="col-12 mb-1 md:col-1 md:mb-0">
-								<b>Código</b>
-							</label>
-                            <div class="col-12 md:col-12">
-                                <input type="number" pInputText [(ngModel)]="animal.codigo" />
                             </div>
                         </div>
 
@@ -176,14 +164,6 @@
                             </label>
                             <div class="col-12 md:col-12">
                                 <input type="date" pInputText [(ngModel)]="animal.fechaNacimiento" />
-                            </div>
-                        </div>
-                        <div class="field grid">
-                            <label htmlFor="name3" class="col-12 mb-1 md:col-1 md:mb-0">
-                                <b>Peso</b>
-                            </label>
-                            <div class="col-12 md:col-12">
-                                <input type="number" pInputText [(ngModel)]="animal.peso" />
                             </div>
                         </div>
                         <div class="field grid">

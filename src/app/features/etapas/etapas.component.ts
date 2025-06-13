@@ -24,7 +24,7 @@ export class EtapasComponent {
     seleccionado: any = {};
     item: any = {};
     rowsPerPageOptions = [5, 10, 20];
-    nombreModulo: string = 'Módulo de Etapas';
+    nombreModulo: string = 'Módulo de Categorías';
 
 
 
